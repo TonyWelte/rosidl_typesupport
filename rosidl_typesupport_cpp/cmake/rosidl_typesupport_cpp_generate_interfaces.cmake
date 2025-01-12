@@ -115,6 +115,31 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
+target_precompile_headers(${rosidl_generate_interfaces_TARGET}${_target_suffix}
+  PRIVATE
+    # msg__type_support.cpp.em
+    <cstddef>
+    [["rosidl_runtime_c/message_type_support_struct.h"]]
+    # rosidl_generator_c/ressource/idl__functions.h.em
+    <stdbool.h>
+    <stdlib.h>
+    [["rosidl_runtime_c/action_type_support_struct.h"]]
+    [["rosidl_runtime_c/message_type_support_struct.h"]]
+    [["rosidl_runtime_c/service_type_support_struct.h"]]
+    [["rosidl_runtime_c/type_description/type_description__struct.h"]]
+    [["rosidl_runtime_c/type_description/type_source__struct.h"]]
+    [["rosidl_runtime_c/type_hash.h"]]
+    [["rosidl_runtime_c/visibility_control.h"]]
+    # rosidl_generator_cpp/ressource/idl__struct.hpp.em
+    <algorithm>
+    <array>
+    <memory>
+    <string>
+    <vector>
+    [["rosidl_runtime_cpp/bounded_vector.hpp"]]
+    [["rosidl_runtime_cpp/message_initialization.hpp"]]
+)
+
 # if only a single typesupport is used this package will directly reference it
 # therefore it needs to link against the selected typesupport
 if(NOT typesupports MATCHES ";")
